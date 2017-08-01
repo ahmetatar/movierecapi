@@ -1,0 +1,26 @@
+version: "2"
+services: 
+  mongodb:
+    image: mongo
+    container_name: db
+    ports:
+      - "27017:27017"
+  mongo-data:
+    build: ./mongo-data
+    links:
+      - mongodb
+  api:
+    build: .
+    command: "npm start"
+    container_name: api.movie
+    environment: 
+      - PORT=1453
+      - DB_PORT=27017
+      - NODE_ENV=development
+      - DB_URL=mongodb://db:27017/moviedb   
+    links: 
+      - mongodb   
+    ports:
+      - "1453:1453"
+    volumes: 
+      - .:/usr/app
