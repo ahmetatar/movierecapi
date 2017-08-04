@@ -18,9 +18,9 @@ services:
       - DB_PORT=27017
       - NODE_ENV=development
       - DB_URL=mongodb://db:27017/moviedb   
-    links: 
-      - mongodb   
+    links:
+      - mongodb
     ports:
       - "1453:1453"
     volumes: 
-      - .:/usr/app
+      - /usr/app:/app
