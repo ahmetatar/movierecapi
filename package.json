@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon --inspect=5858 index.js"
   },
   "keywords": [],
   "author": "Ahmet Atar",
@@ -13,5 +12,8 @@
   "dependencies": {
     "express": "^4.15.3",
     "mongodb": "^2.2.30"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0"
   }
 }

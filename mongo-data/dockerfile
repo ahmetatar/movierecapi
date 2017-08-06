@@ -1,3 +1,3 @@
 FROM mongo
 COPY ./moviedata.json /tmp/moviedata.json
-CMD mongoimport --host mongodb --port 27017 --db moviedb --collection movies --type json --file /tmp/moviedata.json --jsonArray
+CMD mongoimport --host mongodb --port 27017 --db moviedb --collection movies --type json --drop --file /tmp/moviedata.json --jsonArray
