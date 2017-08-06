@@ -7,6 +7,7 @@ services:
       - "27017:27017"
   mongo-data:
     build: ./mongo-data
+    container_name: mongo.data
     links:
       - mongodb
   api:
@@ -20,6 +21,7 @@ services:
       - DB_URL=mongodb://db:27017/moviedb   
     links:
       - mongodb
+      - mongo-data
     ports:
       - "1453:1453"
     volumes: 

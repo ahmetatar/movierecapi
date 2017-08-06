@@ -16,6 +16,4 @@ if "%machine%"=="" (
         echo sudo mkdir /usr/app -p
         echo sudo mount -t vboxsf usr/app /usr/app/
     ) | docker-machine ssh %machine%
-
-    exit
 )
