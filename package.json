@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --inspect=5858 index.js"
+    "start": "nodemon --legacy-watch index.js"
   },
   "keywords": [],
   "author": "Ahmet Atar",
