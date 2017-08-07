@@ -1,6 +1,3 @@
 FROM node
 MAINTAINER "Ahmet Atar"
-
-EXPOSE 1453
-EXPOSE 5858
 WORKDIR /app

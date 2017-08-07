@@ -24,5 +24,6 @@ services:
       - mongo-data
     ports:
       - "1453:1453"
+      - "5858:5858"
     volumes: 
-      - /usr/app:/app
+      - .:/app
