@@ -5,7 +5,7 @@ var app = express();
 var movieRouter = express.Router();
 
 movieRouter.get("/recommend", (req, res) => {
-    res.send({ id: 1, title: "This is a test" });
+    res.send("Server: " + process.env.SERVER_NAME);
 });
 
 movieRouter.get("/recommend/:category/:year", (req, res) => {

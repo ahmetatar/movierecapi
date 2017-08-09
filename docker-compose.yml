@@ -1,5 +1,13 @@
 version: "2"
 services: 
+  nginx:
+    build: ./nginx
+    links: 
+      - api1
+      - api2
+      - api3
+    ports:
+      - "8080:80"
   mongodb:
     image: mongo
     container_name: db
@@ -10,20 +18,54 @@ services:
     container_name: mongo.data
     links:
       - mongodb
-  api:
+  api1:
     build: .
     command: "npm start"
-    container_name: api.movie
+    container_name: api1.movie
     environment: 
       - PORT=1453
       - DB_PORT=27017
       - NODE_ENV=development
-      - DB_URL=mongodb://db:27017/moviedb   
+      - DB_URL=mongodb://db:27017/moviedb  
+      - SERVER_NAME=API1 
     links:
       - mongodb
       - mongo-data
     ports:
-      - "1453:1453"
-      - "5858:5858"
+      - 1453
+    volumes: 
+      - .:/app
+  api2:
+    build: .
+    command: "npm start"
+    container_name: api2.movie
+    environment: 
+      - PORT=1453
+      - DB_PORT=27017
+      - NODE_ENV=development
+      - DB_URL=mongodb://db:27017/moviedb 
+      - SERVER_NAME=API2  
+    links:
+      - mongodb
+      - mongo-data
+    ports:
+      - 1453
+    volumes: 
+      - .:/app
+  api3:
+    build: .
+    command: "npm start"
+    container_name: api3.movie
+    environment: 
+      - PORT=1453
+      - DB_PORT=27017
+      - NODE_ENV=development
+      - DB_URL=mongodb://db:27017/moviedb  
+      - SERVER_NAME=API3 
+    links:
+      - mongodb
+      - mongo-data
+    ports:
+      - 1453
     volumes: 
       - .:/app
