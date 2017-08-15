@@ -1,18 +1,35 @@
 const express = require("express");
 const MongoClient = require("mongodb").MongoClient;
 
+var db = null;
 var app = express();
-var movieRouter = express.Router();
 
-movieRouter.get("/recommend", (req, res) => {
-    res.send({ Ok: true });
+app.get("/movies", (req, res, next) => {
+
+    var skipVal = Math.floor(Math.random() * 5);
+
+    db.collection("movies")
+        .find({}, { _id: false })
+        .limit(5)
+        .skip(skipVal)
+        .toArray((err, result) => {
+
+            res.json(result);
+        });
 });
 
-movieRouter.get("/recommend/:category/:year", (req, res) => {
-    res.send({ Ok: true });
+app.use((err, req, res, next) => {
+    console.error(err);
+    next(err);
 });
 
-app.use("/movies", movieRouter);
-app.listen(process.env.PORT, () => {
-    console.log("Server running...");
+MongoClient.connect(process.env.DB_URL).then((database) => {
+    db = database;
+
+    app.listen(process.env.PORT, () => {
+        console.log("Server running...");
+    });
+
+}).catch((err) => {
+    console.error(err);
 });
