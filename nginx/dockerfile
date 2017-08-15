@@ -1,3 +1,0 @@
-FROM nginx
-MAINTAINER "Ahmet Atar"
-COPY nginx.conf /etc/nginx/nginx.conf
