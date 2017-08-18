@@ -1,17 +1,24 @@
 version: "2"
 services: 
+  sut:
+    build: .
+    command: "npm test"
+    environment: 
+      - NODE_ENV=test
+    links:
+      - api
   mongodb:
     image: mongo
     container_name: db
-    ports:
-      - "27017:27017"
   mongo-data:
-    build: ./mongo-data
+    build:
+      context: ../mongo-data
     container_name: mongo.data
     links:
       - mongodb
   api:
-    build: .
+    build:
+      context: ../
     command: "npm start"
     container_name: api.movie
     environment: 
@@ -21,7 +28,3 @@ services:
     links:
       - mongodb
       - mongo-data
-    ports:
-      - "1453:1453"
-    volumes: 
-      - .:/app

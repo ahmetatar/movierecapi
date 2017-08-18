@@ -1,0 +1,11 @@
+FROM node
+MAINTAINER "Ahmet Atar <ahhmetatar@gmail.com>"
+
+COPY package.json /tmp/package.json
+RUN cd /tmp && npm install
+RUN mkdir -p /test && cp -a /tmp/node_modules /test/
+
+WORKDIR /test
+COPY movies.spec.js /test/movies.spec.js
+
+CMD ["mocha"]
