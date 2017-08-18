@@ -1,8 +1,9 @@
 version: "2"
 services: 
   sut:
-    build: .
-    command: "npm test"
+    build:
+      context: .
+      dockerfile: dockerfile.test 
     environment: 
       - NODE_ENV=test
     links:
@@ -12,13 +13,12 @@ services:
     container_name: db
   mongo-data:
     build:
-      context: ../mongo-data
+      context: ./mongo-data
     container_name: mongo.data
     links:
       - mongodb
   api:
-    build:
-      context: ../
+    build: .
     command: "npm start"
     container_name: api.movie
     environment: 
@@ -28,3 +28,5 @@ services:
     links:
       - mongodb
       - mongo-data
+    volumes:
+      - ./test:/sutbox/test

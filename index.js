@@ -14,7 +14,6 @@ app.get("/movies", (req, res, next) => {
         .limit(5)
         .skip(skipVal)
         .toArray((err, result) => {
-
             res.json(result);
         });
 });
