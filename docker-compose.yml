@@ -8,16 +8,17 @@ services:
     links:
       - mongodb
   api:
-    build:
-      context: .
-      dockerfile: dockerfile.test
+    build: .
     command: "npm test"
     environment: 
       - PORT=1453
       - NODE_ENV=test
       - DB_URL=mongodb://db:27017/moviedb
+    ports: 
+      - "1453:1453"
+      - "5858:5858"
     links:
       - mongodb
       - mongo-data
     volumes: 
-      - ./test:/sutbox/test/
+      - .:/app
