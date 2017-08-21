@@ -9,5 +9,6 @@ WORKDIR /app
 COPY . /app/
 
 EXPOSE 1453
+EXPOSE 5858
 
 CMD ["node", "index.js"]
