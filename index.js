@@ -1,13 +1,10 @@
-const db = require("./infrastructure/db");
-const app = require("./app")(db);
+const app = require("./app");
 const config = require("nconf");
 
-db.open(config.get("DB_URL")).then(() => {
+app.initialize((err, app) => {
+    if (err) {
+        return console.error(err);
+    }
 
-    app.listen(config.get("PORT"), () => {
-        console.log(`Server listening on port ${config.get("PORT")}...`);
-    });
-}).catch((err) => {
-    console.error(err);
-    process.exit(1);
+    console.log(`Server listening on port ${config.get("PORT")}...`);
 });

@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon -L index.js"
+    "start": "node index.js",
+    "test": ""
   },
   "keywords": [],
   "author": "Ahmet Atar",
