@@ -1,6 +1,10 @@
 node_modules
+scripts
 Dockerfile
 docker-compose.yml
 .gitignore
 .dockerignore
 .vscode
+.git
+.circleci
+*.md
