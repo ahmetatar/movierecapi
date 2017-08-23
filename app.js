@@ -1,6 +1,7 @@
 const config = require("nconf");
 const express = require("express");
 const db = require("./infrastructure/db");
+const routes = require("./routes");
 
 module.exports = (function () {
 
@@ -12,18 +13,7 @@ module.exports = (function () {
             config.argv().env();
 
             // Routes
-            app.get("/movies", (req, res, next) => {
-
-                var skipVal = Math.floor(Math.random() * 5);
-
-                db.collection("movies")
-                    .find({}, { _id: false })
-                    .limit(5)
-                    .skip(skipVal)
-                    .toArray((err, result) => {
-                        res.json(result);
-                    });
-            });
+            app.use("/movies", routes.movie);
 
             // Middlewares
             app.use((err, req, res, next) => {

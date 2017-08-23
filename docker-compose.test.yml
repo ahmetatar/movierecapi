@@ -9,14 +9,11 @@ services:
       - mongodb
   api:
     build: .
-    command: "npm start"
+    command: "npm test"
     environment: 
       - PORT=1453
-      - NODE_ENV=development
+      - NODE_ENV=test
       - DB_URL=mongodb://db:27017/moviedb
-    ports: 
-      - "1453:1453"
-      - "5858:5858"
     links:
       - mongodb
       - mongo-data
