@@ -20,4 +20,5 @@ services:
     volumes: 
       # Docker for Windows
       #- .:/app
+      # Docker Machine
       - /usr/app:/app/
