@@ -1,4 +1,11 @@
 machine:
+  node:
+    version: 5
+  pre:
+    - sudo curl -L -o /usr/bin/docker 'https://s3-external-1.amazonaws.com/circle-downloads/docker-1.9.1-circleci'
+    - sudo chmod 0755 /usr/bin/docker
+  services:
+    - docker
   environment:
     PROJECT_NAME: movie-recommendation-api
     PROJECT_ID: movie-recommendation-api
