@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon -L --inspect=0.0.0.0:5858 index.js",
-    "test": "mocha --timeout 10000"
+    "test": "docker-compose up & mocha --timeout 10000"
   },
   "keywords": [],
   "author": "Ahmet Atar",
