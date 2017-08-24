@@ -9,7 +9,6 @@ services:
       - mongodb
   api:
     build: .
-    command: "npm test"
     environment: 
       - PORT=1453
       - NODE_ENV=test
@@ -19,6 +18,6 @@ services:
       - mongo-data
     volumes: 
       # Docker for Windows
-      #- .:/app
+      - .:/app
       # Docker Machine
-      - /usr/app:/app/
+      #- /usr/app:/app/
