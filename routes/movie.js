@@ -1,10 +1,11 @@
 const express = require("express");
 const db = require("../infrastructure/db");
+const utils = require("../infrastructure/utils");
 
 var router = express.Router();
 
 router.get("/", (req, res) => {
-    var skipVal = Math.floor(Math.random() * 5);
+    var skipVal = utils.getRandomSkipValue();
 
     db.collection("movies")
         .find({}, { _id: false })
