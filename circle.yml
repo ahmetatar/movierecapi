@@ -14,6 +14,7 @@ machine:
 
 dependencies:
   pre:
+    - sudo pip install docker-compose
     - sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update --version 120.0.0
     - sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update --version 120.0.0 kubectl
     - echo $ACCT_AUTH | base64 --decode -i > ${HOME}//gcloud-service-key.json
