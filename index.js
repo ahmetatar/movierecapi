@@ -6,5 +6,5 @@ app.initialize((err, app) => {
         return console.error(err);
     }
 
-    console.log(`Server listening on port ${config.get("PORT")}...`);
+    console.log(`Server listening on ${config.get("PORT")}...`);
 });
