@@ -26,4 +26,4 @@ dependencies:
     - docker tag asia.gcr.io/${PROJECT_NAME}/apiv1:$CIRCLE_SHA1 asia.gcr.io/${PROJECT_NAME}/apiv1:latest
     - sudo /opt/google-cloud-sdk/bin/gcloud docker -- push asia.gcr.io/${PROJECT_NAME}/apiv1
     - sudo chown -R ubuntu:ubuntu /home/ubuntu/.kube
-    - kubectl patch deployment movie-recommendation-api -p '{"spec":{"template":{"spec":{"containers":[{"name":"movie-recommendation-api","image":"asia.gcr.io/movie-recommendation-api/apiv1:'"$CIRCLE_SHA1"'"}]}}}}'
+    - kubectl set image deployment/movierecapi movierecapi=gcr.io/${PROJECT_ID}/apiv1
