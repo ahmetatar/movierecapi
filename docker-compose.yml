@@ -3,6 +3,8 @@ services:
   mongodb:
     image: mongo
     container_name: db
+    ports: 
+      - "27017:27017"
   mongo-data:
     build: ./mongo-data
     links:
@@ -10,18 +12,15 @@ services:
   api:
     build: .
     command: npm start
-    environment: 
-      - PORT=1453
-      - NODE_ENV=development
-      - DB_URL=mongodb://db:27017/moviedb
     ports: 
       - "1453:1453"
       - "5858:5858"
+    environment: 
+      - NODE_ENV=development
+      - PORT=1453
+      - DB_URL=mongodb://db:27017/moviedb
     links:
       - mongodb
       - mongo-data
     volumes: 
-      # Docker for Windows
-      # .:/app
-      # Docker Machine
-      - /usr/app:/app/
+      - .:/app

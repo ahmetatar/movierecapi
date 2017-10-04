@@ -1,5 +1,5 @@
 FROM node
-MAINTAINER "Ahmet Atar <ahhmetatar@gmail.com>"
+LABEL Author="Ahmet Atar <ahhmetatar@gmail.com>"
 
 COPY package.json /tmp/package.json
 RUN cd /tmp && npm install
