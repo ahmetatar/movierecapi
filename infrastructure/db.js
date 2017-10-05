@@ -6,11 +6,11 @@ module.exports = (function () {
     var _db = null;
 
     return {
-        open: function (url) {
+        open: function (url, options) {
             if (_db) return Promise.resolve();
             if (!url) throw new Error("url");
 
-            return MongoClient.connect(url).then((database) => {
+            return MongoClient.connect(url, options).then((database) => {
                 _db = database;
             });
         },

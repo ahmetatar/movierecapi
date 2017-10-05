@@ -1,0 +1,25 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: movierecapi-deployment
+spec:
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: movie-rec-api
+    spec:
+      containers:
+        - name: movie-rec-api
+          image: asia.gcr.io/movie-rec-api/api
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 1453
+          env:
+            - name: PORT
+              value: "1453"
+            - name: DB_URL
+              valueFrom: 
+                secretKeyRef:
+                  name: appsecrets
+                  key: dburl

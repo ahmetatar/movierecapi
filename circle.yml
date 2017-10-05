@@ -7,8 +7,8 @@ machine:
   services:
     - docker
   environment:
-    PROJECT_NAME: movie-recommendation-api
-    PROJECT_ID: movie-recommendation-api
+    PROJECT_NAME: movie-rec-api
+    PROJECT_ID: movie-rec-api
     CLUSTER_NAME: movie-cluster-1
     CLOUDSDK_COMPUTE_ZONE: asia-east1-a
 
@@ -22,8 +22,8 @@ dependencies:
     - sudo /opt/google-cloud-sdk/bin/gcloud --quiet config set container/cluster $CLUSTER_NAME
     - sudo /opt/google-cloud-sdk/bin/gcloud config set compute/zone ${CLOUDSDK_COMPUTE_ZONE}
     - sudo /opt/google-cloud-sdk/bin/gcloud --quiet container clusters get-credentials --zone $CLOUDSDK_COMPUTE_ZONE $CLUSTER_NAME
-    - docker build -t asia.gcr.io/${PROJECT_NAME}/api:$CIRCLE_SHA1 .
-    - docker tag asia.gcr.io/${PROJECT_NAME}/api:$CIRCLE_SHA1 asia.gcr.io/${PROJECT_NAME}/api:latest
+    - docker build -t asia.gcr.io/${PROJECT_NAME}/api .
+    - docker tag asia.gcr.io/${PROJECT_NAME}/api asia.gcr.io/${PROJECT_NAME}/api:latest
     - sudo /opt/google-cloud-sdk/bin/gcloud docker -- push asia.gcr.io/${PROJECT_NAME}/api:latest
     - sudo chown -R ubuntu:ubuntu /home/ubuntu/.kube
-    - kubectl set image deployment/movierecapi movierecapi=gcr.io/${PROJECT_ID}/api:latest
+    - kubectl apply -f ./configs/deployment.yml
