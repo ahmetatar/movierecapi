@@ -27,4 +27,4 @@ dependencies:
     - sudo /opt/google-cloud-sdk/bin/gcloud docker -- push asia.gcr.io/${PROJECT_NAME}/api:latest
     - sudo chown -R ubuntu:ubuntu /home/ubuntu/.kube
     - kubectl apply -f ./configs/deployment.yml
-    - kubectl expose deployment movierecapi-deployment --type=LoadBalancer --name=movierecapi-service
+    #- kubectl expose deployment movierecapi-deployment --type=LoadBalancer --name=movierecapi-service
