@@ -17,10 +17,12 @@ app.use((err, req, res, next) => {
 });
 
 // DB
-db.open(config.get("DB_URL")).then(() => {
-    app.listen(config.get("PORT"), () => {
-        dbg("Server listening on %s", config.get("PORT"));
+app.listen(config.get("PORT"), () => {
+    dbg("Server listening on %s", config.get("PORT"));
+    
+    db.open(config.get("DB_URL")).then(() => {
+        dbg("Database Ok");
+    }).catch((err) => {
+        dbg(err);
     });
-}).catch((err) => {
-    dbg(err);
 });
