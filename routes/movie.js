@@ -6,7 +6,7 @@ var router = express.Router();
 
 router.get("/", (req, res) => {
     var skipVal = utils.getRandomSkipValue();
-
+    
     db.collection("movies")
         .find({}, { _id: false })
         .limit(5)

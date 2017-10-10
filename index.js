@@ -9,6 +9,7 @@ config.argv().env();
 
 // Routes
 app.use("/movies", routes.movie);
+app.use("/", (req, res) => { res.send("Hello from Movie Recommendation Api") });
 
 // Middlewares
 app.use((err, req, res, next) => {
@@ -19,7 +20,7 @@ app.use((err, req, res, next) => {
 // DB
 app.listen(config.get("PORT"), () => {
     dbg("Server listening on %s", config.get("PORT"));
-    
+
     db.open(config.get("DB_URL")).then(() => {
         dbg("Database Ok");
     }).catch((err) => {
