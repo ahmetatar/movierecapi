@@ -9,7 +9,6 @@ config.argv().env();
 
 // Routes
 app.use("/movies", routes.movie);
-app.use("/", (req, res) => { res.send("Hello from Movie Recommendation Api") });
 
 // Middlewares
 app.use((err, req, res, next) => {
