@@ -11,7 +11,7 @@ spec:
     spec:
       containers:
         - name: movie-rec-api
-          image: asia.gcr.io/movie-rec-api/api:latest
+          image: asia.gcr.io/movie-rec-api/api
           imagePullPolicy: Always
           ports:
             - containerPort: 1453
