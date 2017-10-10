@@ -2,6 +2,8 @@ const express = require("express");
 const db = require("../infrastructure/db");
 const utils = require("../infrastructure/utils");
 
+const config = require("nconf");
+
 var router = express.Router();
 
 router.get("/", (req, res) => {
