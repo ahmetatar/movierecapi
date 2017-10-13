@@ -17,10 +17,12 @@ app.use((err, req, res, next) => {
 
 // DB
 app.listen(config.get("PORT"), () => {
-    console.log("Server listening on %s", config.get("PORT"));
+
+    console.log(`Server listening on ${config.get("PORT")}`);
+    console.log(`Database connecting to ${config.get("DB_URL")}`)
 
     db.open(config.get("DB_URL")).then(() => {
-        console.log("Database Ok");
+        console.log("Database connection successfuly");
     }).catch((err) => {
         console.error(err);
     });
