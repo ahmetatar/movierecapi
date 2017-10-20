@@ -19,7 +19,8 @@ spec:
             - name: PORT
               value: "1453"
             - name: DB_URL
-              valueFrom: 
-                secretKeyRef:
-                  name: appsecrets
-                  key: dburl
+              value: mongodb://mongo-0.mongo,mongo-1.mongo,mongo-2.mongo:27017/moviedb?replicaSet=rs0
+              #valueFrom: 
+              #  secretKeyRef:
+              #    name: appsecrets
+              #    key: dburl
