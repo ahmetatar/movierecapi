@@ -12,6 +12,12 @@ router.get("/", (req, res) => {
         .limit(5)
         .skip(skipVal)
         .toArray((err, result) => {
+            if (err) {
+                console.log(err);
+                return res.json(err);
+            }
+
+            console.log(result);
             res.json(result);
         });
 });
