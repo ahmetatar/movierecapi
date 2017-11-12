@@ -5,7 +5,6 @@ module.exports = (function () {
         hangThreshold: 0,
 
         handler: function (req, res, next) {
-            console.log(`Health request: ${req.url}`);
 
             if (this.shutdownsign) {
                 console.log(`Stop getting traffic - ${new Date().toISOString()}`);

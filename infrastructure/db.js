@@ -6,7 +6,7 @@ module.exports = (function () {
     var _db = null;
     var _defaults = {
         reconnectTries: 50,
-        reconnectInternval: 1000
+        reconnectInterval: 1000
     }
 
     return {
