@@ -6,8 +6,8 @@ module.exports = (function () {
 
     var _db = null;
     var _attempCount = 0;
-    const RETRY_COUNT = 10;
-    const RETRY_DELAY_MS = 2000;
+    const RETRY_COUNT = 20;
+    const RETRY_DELAY_MS = 5000;
 
     return {
         open: function (url, options) {
@@ -19,7 +19,7 @@ module.exports = (function () {
                 var _err = null;
                 var _attemp = function () {
                     if (_attempCount == RETRY_COUNT) {
-                        reject(err);
+                        reject(_err);
                     }
                     else {
                         MongoClient.connect(url).then((database) => {
@@ -30,10 +30,12 @@ module.exports = (function () {
                             _err = e;
 
                             logger.error("Mongo connection failed. Retrying to connect %d", _attempCount);
-                            setTimeout(() => _attemp(), 2000);
+                            setTimeout(() => _attemp(), RETRY_DELAY_MS);
                         });
                     }
                 }
+
+                _attemp();
             });
         },
 
