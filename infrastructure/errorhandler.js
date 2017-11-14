@@ -1,4 +1,6 @@
+const logger = require("./logger");
+
 module.exports = function logErrors(err, req, res, next) {
-    // Handle error or pass error to default error handler
-    return next(err);
+    logger.error(err);
+    return res.json({ error: err });
 }

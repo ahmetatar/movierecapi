@@ -1,4 +1,5 @@
 const express = require("express");
+const logger = require("../infrastructure/logger");
 const db = require("../infrastructure/db");
 const utils = require("../infrastructure/utils");
 const healthCheck = require("../infrastructure/healthcheck");
@@ -14,7 +15,7 @@ router.get("/", (req, res, next) => {
         .skip(skipVal)
         .toArray((err, result) => {
             if (err) {
-                console.log(err);
+                logger.error(err);
                 return res.json({ error: "opps!" });
             }
 

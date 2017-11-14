@@ -1,3 +1,5 @@
+const logger = require("./logger");
+
 const HealthCheckHandler = (function () {
 
     return {
@@ -7,7 +9,7 @@ const HealthCheckHandler = (function () {
         handler: function (req, res, next) {
 
             if (HealthCheckHandler.shutdownsign) {
-                console.log(`Stop getting traffic - ${new Date().toISOString()}`);
+                logger.log(`Stop getting traffic - ${new Date().toISOString()}`);
                 return res.status(500).end("nok");
             }
 

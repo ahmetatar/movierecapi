@@ -1,28 +1,44 @@
+const logger = require("./logger");
 const ObjectId = require("mongodb").ObjectID;
 const MongoClient = require("mongodb").MongoClient;
 
 module.exports = (function () {
 
     var _db = null;
-    var _defaults = {
-        reconnectTries: 50,
-        reconnectInterval: 1000
-    }
+    var _attempCount = 0;
+    const RETRY_COUNT = 10;
+    const RETRY_DELAY_MS = 2000;
 
     return {
         open: function (url, options) {
             if (_db) return Promise.resolve();
             if (!url) throw new Error("url");
 
-            Object.assign((options || {}), _defaults);
+            return new Promise((resolve, reject) => {
 
-            return MongoClient.connect(url, _defaults).then((database) => {
-                _db = database;
+                var _err = null;
+                var _attemp = function () {
+                    if (_attempCount == RETRY_COUNT) {
+                        reject(err);
+                    }
+                    else {
+                        MongoClient.connect(url).then((database) => {
+                            _db = database;
+                            resolve();
+                        }).catch((e) => {
+                            _attempCount++;
+                            _err = e;
+
+                            logger.error("Mongo connection failed. Retrying to connect %d", _attempCount);
+                            setTimeout(() => _attemp(), 2000);
+                        });
+                    }
+                }
             });
         },
 
         close: function (cb) {
-            if (!_db) throw new Error();
+            if (!_db) return cb();
 
             _db.close(cb);
         },
