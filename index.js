@@ -14,13 +14,23 @@ app.use("/movies", routes.movie);
 app.use(/\/health/, healthCheck.handler);
 app.use(errorHandler);
 
-// DB
+// App initialize
 const server = app.listen(config.get("PORT"), () => {
 
     logger.log(`Server listening on ${config.get("PORT")}`);
-    logger.log(`Database connecting to ${config.get("DB_URL")}`);
 
-    db.open(config.get("DB_URL")).then(() => {
+    var dbconf = {
+        host: config.get("DB_HOST"),
+        port: config.get("DB_PORT"),
+        dbname: config.get("DB_NAME")
+    };
+
+    if (app.get("env") != "development") {
+        dbconf.username = config.get("DB_USERNAME");
+        dbconf.password = config.get("DB_PASSWORD");
+    }
+
+    db.open(dbconf).then(() => {
         logger.log("Database connection successfuly");
     }).catch((err) => {
         logger.error(err);

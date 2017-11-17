@@ -7,8 +7,8 @@ machine:
   services:
     - docker
   environment:
-    PROJECT_NAME: movie-rec-api
-    PROJECT_ID: movie-rec-api
+    PROJECT_NAME: movierecapi
+    PROJECT_ID: movierecapi
     CLUSTER_NAME: movie-cluster-1
     CLOUDSDK_COMPUTE_ZONE: asia-east1-a
 

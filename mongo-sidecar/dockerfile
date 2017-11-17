@@ -1,0 +1,4 @@
+FROM mongo
+COPY ./moviedata.json /tmp/moviedata.json
+COPY ./initdb.sh /tmp/initdb.sh
+CMD ["/tmp/initdb.sh"]

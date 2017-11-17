@@ -1,3 +1,0 @@
-FROM mongo
-COPY ./moviedata.json /tmp/moviedata.json
-CMD mongoimport --host mongodb --port 27017 --db moviedb --collection movies --type json --mode upsert --file /tmp/moviedata.json --jsonArray
