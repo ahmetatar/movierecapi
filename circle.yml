@@ -22,8 +22,8 @@ dependencies:
     - sudo /opt/google-cloud-sdk/bin/gcloud --quiet config set container/cluster $CLUSTER_NAME
     - sudo /opt/google-cloud-sdk/bin/gcloud config set compute/zone ${CLOUDSDK_COMPUTE_ZONE}
     - sudo /opt/google-cloud-sdk/bin/gcloud --quiet container clusters get-credentials --zone $CLOUDSDK_COMPUTE_ZONE $CLUSTER_NAME
-    - docker build -t asia.gcr.io/${PROJECT_NAME}/api:$CIRCLE_SHA1 .
-    - docker tag asia.gcr.io/${PROJECT_NAME}/api:$CIRCLE_SHA1 asia.gcr.io/${PROJECT_NAME}/api:latest
-    - sudo /opt/google-cloud-sdk/bin/gcloud docker -- push asia.gcr.io/${PROJECT_NAME}/api
+    - docker build -t asia.gcr.io/${PROJECT_NAME}/apimg:$CIRCLE_SHA1 .
+    - docker tag asia.gcr.io/${PROJECT_NAME}/apimg:$CIRCLE_SHA1 asia.gcr.io/${PROJECT_NAME}/apimg:latest
+    - sudo /opt/google-cloud-sdk/bin/gcloud docker -- push asia.gcr.io/${PROJECT_NAME}/apimg
     - sudo chown -R ubuntu:ubuntu /home/ubuntu/.kube
-    - kubectl patch deployment movierecapi-deployment -p '{"spec":{"template":{"spec":{"containers":[{"name":"movie-rec-api","image":"asia.gcr.io/movie-rec-api/api:'"$CIRCLE_SHA1"'"}]}}}}'
+    - kubectl patch deployment movierecapi-deployment -p '{"spec":{"template":{"spec":{"containers":[{"name":"movie-rec-api","image":"asia.gcr.io/movierecapi/apimg:'"$CIRCLE_SHA1"'"}]}}}}'

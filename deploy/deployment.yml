@@ -1,9 +1,14 @@
-apiVersion: apps/v1beta1
+apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
   name: movierecapi-deployment
+  labels:
+    app: movie-rec-api
 spec:
   replicas: 3
+  selector:
+    matchLabels:
+      app: movie-rec-api
   template:
     metadata:
       labels:
@@ -11,15 +16,28 @@ spec:
     spec:
       containers:
         - name: movie-rec-api
-          image: asia.gcr.io/movie-rec-api/api
-          imagePullPolicy: Always
+          image: asia.gcr.io/movierecapi/apimg
           ports:
             - containerPort: 1453
           env:
             - name: PORT
               value: "1453"
-            - name: DB_URL
-              value: mongodb://mongo-0.mongo,mongo-1.mongo,mongo-2.mongo:27017/moviedb?replicaSet=rs0
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: apisecrets
+                  key: dbusername
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: apisecrets
+                  key: dbpassword
+            - name: DB_HOST
+              value: "10.140.0.5"                           
+            - name: DB_NAME
+              value: moviedb
+            - name: DB_PORT
+              value: "27017"                            
           livenessProbe:
             httpGet:
               path: /health

@@ -1,10 +1,11 @@
-const config = require("nconf");
-const express = require("express");
-const routes = require("./routes");
-const logger = require("./infrastructure/logger");
-const db = require("./infrastructure/db");
-const healthCheck = require("./infrastructure/healthcheck");
-const errorHandler = require("./infrastructure/errorhandler");
+const config = require("nconf")
+    , express = require("express")
+    , os = require("os")
+    , routes = require("./routes")
+    , logger = require("./infrastructure/logger")
+    , db = require("./infrastructure/db")
+    , healthCheck = require("./infrastructure/healthcheck")
+    , errorHandler = require("./infrastructure/errorhandler");
 
 var app = express();
 config.argv().env();
@@ -17,7 +18,7 @@ app.use(errorHandler);
 // App initialize
 const server = app.listen(config.get("PORT"), () => {
 
-    logger.log(`Server listening on ${config.get("PORT")}`);
+    logger.log(`Server listening on ${os.hostname()}`);
 
     var dbconf = {
         host: config.get("DB_HOST"),

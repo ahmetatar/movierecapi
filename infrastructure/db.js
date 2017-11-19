@@ -1,6 +1,6 @@
-const logger = require("./logger");
-const ObjectId = require("mongodb").ObjectID;
-const MongoClient = require("mongodb").MongoClient;
+const logger = require("./logger")
+    , ObjectId = require("mongodb").ObjectID
+    , MongoClient = require("mongodb").MongoClient;
 
 var Database = (function () {
 

@@ -1,0 +1,12 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name:  movierecapi-service
+spec:
+  selector:
+    app:  movie-rec-api
+  type:  LoadBalancer
+  ports:
+  - name:  service-endpoint
+    port:  1453
+    targetPort:  1453
