@@ -16,6 +16,8 @@ services:
       - "1453:1453"
       - "5858:5858"
     environment: 
+      - DEBUG=app*
+      - DEBUG_COLORS=true
       - NODE_ENV=development
       - PORT=1453
       - DB_HOST=db

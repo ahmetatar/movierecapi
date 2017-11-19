@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "DEBUG=app* DEBUG_COLORS=true node --inspect=0.0.0.0:5858 index.js",
+    "start": "node --inspect=0.0.0.0:5858 index.js",
     "test": "mocha"
   },
   "keywords": [],
