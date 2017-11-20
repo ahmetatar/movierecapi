@@ -25,7 +25,7 @@ spec:
             - name: NODE_ENV
               value: production
             - name: APP_VERSION
-              value: "1.0.100"
+              value: "1.0.101"
             - name: DEBUG
               value: "app*"
             - name: PORT
