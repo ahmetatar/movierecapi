@@ -20,6 +20,8 @@ spec:
           ports:
             - containerPort: 1453
           env:
+            - name: APP_NAME
+              value: "Movie Recommendation API"
             - name: DEBUG
               value: "app*"
             - name: PORT
