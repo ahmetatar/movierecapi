@@ -20,6 +20,8 @@ spec:
           ports:
             - containerPort: 1453
           env:
+            - name: DEBUG
+              value: "app*"
             - name: PORT
               value: "1453"
             - name: DB_USERNAME

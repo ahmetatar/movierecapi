@@ -1,5 +1,4 @@
-const config = require("nconf")
-    , express = require("express")
+const express = require("express")
     , os = require("os")
     , routes = require("./routes")
     , logger = require("./infrastructure/logger")
@@ -8,7 +7,6 @@ const config = require("nconf")
     , errorHandler = require("./infrastructure/errorhandler");
 
 var app = express();
-config.argv().env();
 
 // Middlewares
 app.use("/movies", routes.movie);
@@ -16,19 +14,19 @@ app.use(/\/health/, healthCheck.handler);
 app.use(errorHandler);
 
 // App initialize
-const server = app.listen(config.get("PORT"), () => {
+const server = app.listen(process.env.PORT, () => {
 
     logger.log(`Server listening on ${os.hostname()}`);
 
     var dbconf = {
-        host: config.get("DB_HOST"),
-        port: config.get("DB_PORT"),
-        dbname: config.get("DB_NAME")
+        host: process.env.DB_HOST,
+        port: process.env.DB_PORT,
+        dbname: process.env.DB_NAME
     };
 
     if (app.get("env") != "development") {
-        dbconf.username = config.get("DB_USERNAME");
-        dbconf.password = config.get("DB_PASSWORD");
+        dbconf.username = process.env.DB_USERNAME;
+        dbconf.password = process.env.DB_PASSWORD;
     }
 
     db.open(dbconf).then(() => {
