@@ -13,6 +13,7 @@ const HealthCheckHandler = (function () {
         hangThreshold: 0,
 
         handler: function (req, res, next) {
+            logger.log(`Healthcheck request - ${req.url}`);
 
             if (HealthCheckHandler.shutdownsign) {
                 logger.log(`SIGTERM received - ${new Date().toISOString()}`);
