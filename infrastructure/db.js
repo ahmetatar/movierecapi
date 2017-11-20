@@ -28,7 +28,7 @@ var Database = (function () {
 
                             //Connection successfuly! Now begin authentication process
                             if (config.username && config.password) {
-                                database.admin().authenticate(config.username, config.password, (err) => {
+                                database.authenticate(config.username, config.password, (err) => {
                                     if (err) return reject(err);
 
                                     _db = database;
