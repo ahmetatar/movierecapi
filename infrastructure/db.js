@@ -25,8 +25,20 @@ var Database = (function () {
                     }
                     else {
                         MongoClient.connect(connstr).then((database) => {
-                            _db = database;
-                            resolve();
+
+                            //Connection successfuly! Now begin authentication process
+                            if (config.username && config.password) {
+                                database.admin().authenticate(config.username, config.password, (err) => {
+                                    if (err) return reject(err);
+
+                                    _db = database;
+                                    resolve();
+                                });
+                            }
+                            else {
+                                _db = database;
+                                resolve();
+                            }
                         }).catch((e) => {
                             _attemptCount++;
                             _err = e;
@@ -61,9 +73,6 @@ var Database = (function () {
         getConnectionString: function (config) {
             var cstr = "mongodb://";
 
-            config.username && (cstr += config.username) && (cstr += ":");
-            config.password && (cstr += config.password);
-            (config.username && config.password) && (cstr += "@");
             config.host && (cstr += config.host);
             config.port && (cstr += ":") && (cstr += config.port);
             config.dbname && (cstr += ("/" + config.dbname));

@@ -25,7 +25,7 @@ const server = app.listen(utils.getenv("PORT"), () => {
         dbname: utils.getenv("DB_NAME")
     };
 
-    if (app.get("env") != "development") {
+    if (utils.getenv("DB_AUTH")) {
         dbconf.username = utils.getenv("DB_USERNAME");
         dbconf.password = utils.getenv("DB_PASSWORD");
     }

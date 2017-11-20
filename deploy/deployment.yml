@@ -20,6 +20,10 @@ spec:
           ports:
             - containerPort: 1453
           env:
+            - name: DB_AUTH
+              value: "true"
+            - name: NODE_ENV
+              value: production
             - name: APP_NAME
               value: "Movie Recommendation API"
             - name: DEBUG
