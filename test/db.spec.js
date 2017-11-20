@@ -15,6 +15,6 @@ describe("#DB", function() {
         var connstr = db.getConnectionString(config);
 
         expect(connstr).to.be.an("String");
-        expect(connstr).eq("mongodb://localhost:27017/moviedb");
+        expect(connstr).eq("mongodb://root:123@localhost:27017/moviedb");
     });
 });
