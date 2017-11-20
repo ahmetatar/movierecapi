@@ -14,6 +14,7 @@ var Database = (function () {
             if (_db) return Promise.resolve();
 
             var connstr = Database.getConnectionString(config);
+            logger.log(`Connecting to database ${connstr}`);
 
             return new Promise((resolve, reject) => {
 

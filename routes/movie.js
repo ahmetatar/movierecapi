@@ -1,8 +1,8 @@
-const express = require("express");
-const logger = require("../infrastructure/logger");
-const db = require("../infrastructure/db");
-const utils = require("../infrastructure/utils");
-const healthCheck = require("../infrastructure/healthcheck");
+const express = require("express")
+    , logger = require("../infrastructure/logger")
+    , db = require("../infrastructure/db")
+    , utils = require("../infrastructure/utils")
+    , healthCheck = require("../infrastructure/healthcheck");
 
 var router = express.Router();
 
