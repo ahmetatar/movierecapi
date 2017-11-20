@@ -19,7 +19,7 @@ router.get("/", (req, res, next) => {
                 return res.json({ error: "opps!" });
             }
 
-            healthCheck.hangThreshold++;
+            //healthCheck.hangThreshold++;
             res.json(result);
         });
 });
