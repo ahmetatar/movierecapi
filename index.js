@@ -4,7 +4,8 @@ const express = require("express")
     , logger = require("./infrastructure/logger")
     , db = require("./infrastructure/db")
     , healthCheck = require("./infrastructure/healthcheck")
-    , errorHandler = require("./infrastructure/errorhandler");
+    , errorHandler = require("./infrastructure/errorhandler")
+    , utils = require("./infrastructure/utils");
 
 var app = express();
 
@@ -14,19 +15,19 @@ app.use(/\/health/, healthCheck.handler);
 app.use(errorHandler);
 
 // App initialize
-const server = app.listen(process.env.PORT, () => {
+const server = app.listen(utils.getenv("PORT"), () => {
 
     logger.log(`Server listening on ${os.hostname()}`);
 
     var dbconf = {
-        host: process.env.DB_HOST,
-        port: process.env.DB_PORT,
-        dbname: process.env.DB_NAME
+        host: utils.getenv("DB_HOST"),
+        port: utils.getenv("DB_PORT"),
+        dbname: utils.getenv("DB_NAME")
     };
 
     if (app.get("env") != "development") {
-        dbconf.username = process.env.DB_USERNAME;
-        dbconf.password = process.env.DB_PASSWORD;
+        dbconf.username = utils.getenv("DB_USERNAME");
+        dbconf.password = utils.getenv("DB_PASSWORD");
     }
 
     db.open(dbconf).then(() => {
