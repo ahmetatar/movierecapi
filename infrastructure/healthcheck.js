@@ -1,4 +1,5 @@
-const logger = require("./logger");
+const logger = require("./logger")
+    , os = require("os");
 
 const HealthCheckHandler = (function () {
 
@@ -15,7 +16,7 @@ const HealthCheckHandler = (function () {
         handler: function (req, res, next) {
 
             if (HealthCheckHandler.shutdownsign) {
-                logger.log("HEALTCHECK::Stop getting traffic");
+                logger.log(`HEALTCHECK::Stop getting traffic - - ${os.hostname()}`);
                 return sendResponse(res, 500, "nok");
             }
 

@@ -45,11 +45,11 @@ process.on("SIGTERM", () => {
     setTimeout(() => {
         server.close((err) => {
             if (err) return logger.error(err);
-            logger.log("SIGTERM::Closed all waiting connections");
+            logger.log(`SIGTERM::Closed all waiting connections - ${os.hostname()}`);
 
             db.close((dberr) => {
                 if (err) logger.error(dberr);
-                logger.log("SIGTERM::Closed database connection");
+                logger.log(`SIGTERM::Closed database connection - - ${os.hostname()}`);
                 process.exit(0);
             });
         });
