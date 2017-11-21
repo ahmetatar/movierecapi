@@ -39,12 +39,14 @@ const server = app.listen(utils.getenv("PORT"), () => {
 
 process.on("SIGTERM", () => {
     healthCheck.shutdownsign = true;
-
+    
     server.close((err) => {
         if (err) logger.error(err);
+        logger.log("SIGTERM::Closed all waiting connections");
 
         db.close((dberr) => {
             if (err) logger.error(dberr);
+            logger.log("SIGTERM::Closed database connection");
             process.exit(0);
         });
     });

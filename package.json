@@ -4,7 +4,6 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node --inspect=0.0.0.0:5858 index.js",
     "test": "mocha"
   },
   "keywords": [],

@@ -13,10 +13,9 @@ const HealthCheckHandler = (function () {
         hangThreshold: 0,
 
         handler: function (req, res, next) {
-            logger.log(`Healthcheck request - ${req.url}`);
 
             if (HealthCheckHandler.shutdownsign) {
-                logger.log(`SIGTERM received - ${new Date().toISOString()}`);
+                logger.log(`HEALTCHECK::Stop getting traffic - ${new Date().toISOString()}`);
                 return sendResponse(res, 500, "nok");
             }
 
