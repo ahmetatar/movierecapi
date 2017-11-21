@@ -25,7 +25,7 @@ spec:
             - name: NODE_ENV
               value: production
             - name: APP_VERSION
-              value: "1.0.103"
+              value: "1.0.106"
             - name: DEBUG
               value: "app*"
             - name: PORT
@@ -50,15 +50,17 @@ spec:
             httpGet:
               path: /health
               port: 1453
-            initialDelaySeconds: 10
-            periodSeconds: 15
-            failureThreshold: 2
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            failureThreshold: 3
             timeoutSeconds: 1
+            successThreshold: 1
           readinessProbe:
             httpGet:
               path: /health
               port: 1453
-            initialDelaySeconds: 5
+            initialDelaySeconds: 2
             periodSeconds: 2
+            successThreshold: 1
             failureThreshold: 2
             timeoutSeconds: 1

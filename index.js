@@ -7,7 +7,20 @@ const express = require("express")
     , errorHandler = require("./infrastructure/errorhandler")
     , utils = require("./infrastructure/utils");
 
+var server = null;
 var app = express();
+
+var dbconfig = {
+    host: utils.getenv("DB_HOST"), 
+    port: utils.getenv("DB_PORT"), 
+    dbname: utils.getenv("DB_NAME")
+};
+
+if (utils.getenv("DB_AUTH")) {
+    dbconfig.username = utils.getenv("DB_USERNAME");
+    dbconfig.password = utils.getenv("DB_PASSWORD");
+}
+
 const READINESS_PROBE_DELAY = 4000; // periodSeconds * failureThreshold
 
 // Middlewares
@@ -15,38 +28,25 @@ app.use("/movies", routes.movie);
 app.use(/\/health/, healthCheck.handler);
 app.use(errorHandler);
 
-// App initialize
-const server = app.listen(utils.getenv("PORT"), () => {
+// Initialize app
+db.open(dbconfig).then(() => {
+    logger.log("Database connection successfuly");
 
-    logger.log(`Server listening on ${os.hostname()}`);
-
-    var dbconf = {
-        host: utils.getenv("DB_HOST"),
-        port: utils.getenv("DB_PORT"),
-        dbname: utils.getenv("DB_NAME")
-    };
-
-    if (utils.getenv("DB_AUTH")) {
-        dbconf.username = utils.getenv("DB_USERNAME");
-        dbconf.password = utils.getenv("DB_PASSWORD");
-    }
-
-    db.open(dbconf).then(() => {
-        logger.log("Database connection successfuly");
-    }).catch((err) => {
-        logger.error(err);
+    server = app.listen(utils.getenv("PORT"), () => {
+        logger.log(`Server listening on ${os.hostname()}`);
     });
+}).catch((err) => {
+    logger.error(err);
 });
 
 process.on("SIGTERM", () => {
     healthCheck.shutdownsign = true;
-    
-    //Wait for readinessProbe fail
+
     setTimeout(() => {
         server.close((err) => {
-            if (err) logger.error(err);
+            if (err) return logger.error(err);
             logger.log("SIGTERM::Closed all waiting connections");
-    
+
             db.close((dberr) => {
                 if (err) logger.error(dberr);
                 logger.log("SIGTERM::Closed database connection");

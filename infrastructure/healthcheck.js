@@ -15,7 +15,7 @@ const HealthCheckHandler = (function () {
         handler: function (req, res, next) {
 
             if (HealthCheckHandler.shutdownsign) {
-                logger.log(`HEALTCHECK::Stop getting traffic - ${new Date().toISOString()}`);
+                logger.log("HEALTCHECK::Stop getting traffic");
                 return sendResponse(res, 500, "nok");
             }
 
