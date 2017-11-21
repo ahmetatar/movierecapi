@@ -8,6 +8,7 @@ const express = require("express")
     , utils = require("./infrastructure/utils");
 
 var app = express();
+const READINESS_PROBE_DELAY = 4000; // periodSeconds * failureThreshold
 
 // Middlewares
 app.use("/movies", routes.movie);
@@ -40,14 +41,17 @@ const server = app.listen(utils.getenv("PORT"), () => {
 process.on("SIGTERM", () => {
     healthCheck.shutdownsign = true;
     
-    server.close((err) => {
-        if (err) logger.error(err);
-        logger.log("SIGTERM::Closed all waiting connections");
-
-        db.close((dberr) => {
-            if (err) logger.error(dberr);
-            logger.log("SIGTERM::Closed database connection");
-            process.exit(0);
+    //Wait for readinessProbe fail
+    setTimeout(() => {
+        server.close((err) => {
+            if (err) logger.error(err);
+            logger.log("SIGTERM::Closed all waiting connections");
+    
+            db.close((dberr) => {
+                if (err) logger.error(dberr);
+                logger.log("SIGTERM::Closed database connection");
+                process.exit(0);
+            });
         });
-    });
+    }, READINESS_PROBE_DELAY);
 });
