@@ -1,20 +1,56 @@
-const expect = require("chai").expect;
-const db = require("../infrastructure/db");
+const assert = require("chai").assert
+    , proxyquire = require("proxyquire");
 
-describe("#DB", function() {
-    it("getConnectionString should return valid mongo connection string", function() {
+describe("#DB", function () {
+    it("open should retry if connection is fail", function () {
 
-        var config = {
-            host: "localhost",
-            port: 27017,
-            dbname: "moviedb",
-            username: "root",
-            password: "123"
+        var attempCount = 0;
+        var mongodb = { MongoClient: {}, ObjectID: {} };
+        var db = proxyquire("../infrastructure/db", { "mongodb": mongodb });
+
+        mongodb.MongoClient.connect = () => {
+            attempCount++;
+            return Promise.reject("socket error");
         };
 
-        var connstr = db.getConnectionString(config);
+        var dbconfig = {
+            host: "localhost",
+            port: 12345,
+            dbname: "test",
+            retry: 5,
+            retryDelay: 10
+        };
 
-        expect(connstr).to.be.an("String");
-        expect(connstr).eq("mongodb://root:123@localhost:27017/moviedb");
+        return db.open(dbconfig).catch((err) => {
+            assert.equal(attempCount, 5);
+            assert.equal(err, "socket error");
+        });
+    });
+
+    it("open should retry if connection is fail and return database when it success", function () {
+
+        var attempCount = 0;
+        var mongodb = { MongoClient: {}, ObjectID: {} };
+        var db = proxyquire("../infrastructure/db", { "mongodb": mongodb });
+
+        mongodb.MongoClient.connect = () => {
+            attempCount++;
+            if (attempCount == 3) return Promise.resolve("database");
+
+            return Promise.reject("socker error");
+        };
+
+        var dbconfig = {
+            host: "localhost",
+            port: 12345,
+            dbname: "test",
+            retry: 5,
+            retryDelay: 10
+        };
+
+        return db.open(dbconfig).then((db) => {
+            assert.equal(db, "database");
+            assert.equal(attempCount, 3);
+        });
     });
 });

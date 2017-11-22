@@ -1,6 +1,7 @@
 const logger = require("./logger")
     , ObjectId = require("mongodb").ObjectID
-    , MongoClient = require("mongodb").MongoClient;
+    , MongoClient = require("mongodb").MongoClient
+    , utils = require("./utils");
 
 var Database = (function () {
 
@@ -9,30 +10,43 @@ var Database = (function () {
     const RETRY_COUNT = 20;
     const RETRY_DELAY_MS = 5000;
 
+    function createConnectionString(config) {
+        var cstr = "mongodb://";
+
+        config.username && (cstr += config.username) && (cstr += ":");
+        config.password && (cstr += config.password);
+        (config.username && config.password) && (cstr += "@");
+        config.host && (cstr += config.host);
+        config.port && (cstr += ":") && (cstr += config.port);
+        config.dbname && (cstr += ("/" + config.dbname));
+
+        return cstr;
+    }
+
     return {
         open: function (config) {
             if (_db) return Promise.resolve();
 
-            var connstr = Database.getConnectionString(config);
+            var connstr = createConnectionString(config);
             logger.log(`Connecting to database ${connstr}`);
 
             return new Promise((resolve, reject) => {
 
                 var _err = null;
                 var _attempt = function () {
-                    if (_attemptCount == RETRY_COUNT) {
+                    if (_attemptCount == (config.retry || RETRY_COUNT)) {
                         reject(_err);
                     }
                     else {
                         MongoClient.connect(connstr).then((database) => {
                             _db = database;
-                            resolve();
+                            resolve(database);
                         }).catch((e) => {
                             _attemptCount++;
                             _err = e;
 
                             logger.error("Mongo connection failed. Retrying to connect %d", _attemptCount);
-                            setTimeout(() => _attempt(), RETRY_DELAY_MS);
+                            setTimeout(() => _attempt(), (config.retryDelay || RETRY_DELAY_MS));
                         });
                     }
                 }
@@ -58,17 +72,19 @@ var Database = (function () {
             return collection;
         },
 
-        getConnectionString: function (config) {
-            var cstr = "mongodb://";
+        createConfigByEnvironment: function () {
+            var dbconfig = {
+                host: utils.getenv("DB_HOST"),
+                port: utils.getenv("DB_PORT"),
+                dbname: utils.getenv("DB_NAME")
+            };
 
-            config.username && (cstr += config.username) && (cstr += ":");
-            config.password && (cstr += config.password);
-            (config.username && config.password) && (cstr += "@");
-            config.host && (cstr += config.host);
-            config.port && (cstr += ":") && (cstr += config.port);
-            config.dbname && (cstr += ("/" + config.dbname));
+            if (utils.getenv("DB_AUTH")) {
+                dbconfig.username = utils.getenv("DB_USERNAME");
+                dbconfig.password = utils.getenv("DB_PASSWORD");
+            }
 
-            return cstr;
+            return dbconfig;
         }
     };
 })();

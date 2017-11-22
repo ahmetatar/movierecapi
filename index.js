@@ -9,18 +9,7 @@ const express = require("express")
 
 var server = null;
 var app = express();
-
-var dbconfig = {
-    host: utils.getenv("DB_HOST"), 
-    port: utils.getenv("DB_PORT"), 
-    dbname: utils.getenv("DB_NAME")
-};
-
-if (utils.getenv("DB_AUTH")) {
-    dbconfig.username = utils.getenv("DB_USERNAME");
-    dbconfig.password = utils.getenv("DB_PASSWORD");
-}
-
+var dbconfig = db.createConfigByEnvironment();
 const READINESS_PROBE_DELAY = 4000; // periodSeconds * failureThreshold
 
 // Middlewares
@@ -39,6 +28,7 @@ db.open(dbconfig).then(() => {
     logger.error(err);
 });
 
+// Listen SIGTERM for graceful shutdown
 process.on("SIGTERM", () => {
     healthCheck.shutdownsign = true;
 
