@@ -7,7 +7,6 @@ This is a simple microservice developed with node.js, which suggests random 5 mo
 ## Prerequisites
 
 1. Google Cloud SDK
-2. Kubectl
-3. Docker & Docker Compose
+2. Docker & Docker Compose
 4. Node.js
 5. CircleCI account
